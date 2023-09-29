@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import SubmitPage from "./pages/SubmitPage";
 function App() {
+  const url = "https://api.chucknorris.io/jokes)"
+  const handleSubmit = (author, mail,content) => {
+    let jokeContent = {
+      'author':author,
+      'mail':mail,
+      'content':content
+    };
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(jokeContent),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SubmitPage onSend={handleSubmit} />
     </div>
   );
 }
